@@ -1,5 +1,6 @@
 import urllib
 import re
+import sqlite3
 from BeautifulSoup import *
 
 data = ['''
@@ -262,10 +263,53 @@ data = ['''
 </table>
 ''']
 
-data2 = '<h3><span class="mw-headline" id="Taiwan_-_TW"><h3><span class="mw-headline" id="Abkhazia_-_GE-AB">'
+conn = sqlite3.connect('mcc_mnc_db.sqlite')
+cur = conn.cursor()
+
+cur.executescript('''
+DROP TABLE IF EXISTS MCC;
+DROP TABLE IF EXISTS MNC;
+
+CREATE TABLE MCC (
+    id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    code   TEXT UNIQUE,
+    name   TEXT UNIQUE
+);
+
+CREATE TABLE MNC (
+    id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    mcc_id INTEGER,
+    mnc_code TEXT
+);
+
+''')
+
 item_list = re.findall('<h3><span class="\S*" id="(\S+?)"|<tr>..<td>([0-9]*)</td>..<td>([0-9]*)</td>', str(data))
-# item_list = re.findall('<h3><span.*id=.*>', str(data))
 print 'len of item_list', len(item_list)
 for item in item_list:
     print '*************'
-    print item
+#    print item
+#    if len(item[0]) > 0: print item
+    if item[0]:
+        country_name = item[0]
+        print 'Get country name', country_name
+        continue
+    if item[1]:
+        mcc_code = item[1]
+        mnc_code = item[2]
+    else:
+        print 'No MCC, ignore', country_name
+        continue
+    print country_name, mcc_code, mnc_code
+    
+    cur.execute('''INSERT OR IGNORE INTO MCC (code, name) 
+    VALUES (?, ?)''', (mcc_code, country_name))
+
+    cur.execute('SELECT id FROM MCC WHERE code = ? ', (mcc_code, ))
+    mcc_id = cur.fetchone()[0]
+    
+    cur.execute('''INSERT INTO MNC (mcc_id, mnc_code)
+    VALUES (?, ?)''', (mcc_id, mnc_code))
+    
+    conn.commit()
+    
