@@ -33,6 +33,8 @@ data = ['''
 <td></td>
 </tr>
 </table>
+<h3><span class="mw-headline" id="Bonaire.2C_Saba.2C_Sint_Eustatius_.28Kingdom_of_the_Netherlands.29_-_BQ"><a href="/wiki/BES_islands" class="mw-redirect" title="BES islands">Bonaire, Saba, Sint Eustatius</a> (<a href="/wiki/Kingdom_of_the_Netherlands" title="Kingdom of the Netherlands">Kingdom of the Netherlands</a>) - BQ</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Mobile_country_code&amp;action=edit&amp;section=30" title="Edit section: Bonaire, Saba, Sint Eustatius (Kingdom of the Netherlands) - BQ">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>See <a href="#Former_Netherlands_Antilles_.28Kingdom_of_the_Netherlands.29_-_BQ.2FCW.2FSX">Former Netherlands Antilles</a></p>
 <h3><span class="mw-headline" id="Vatican_-_VA"><a href="/wiki/Vatican_City" title="Vatican City">Vatican</a> - VA</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Mobile_country_code&amp;action=edit&amp;section=241" title="Edit section: Vatican - VA">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
 <table class="wikitable" width="100%">
 <tr>
@@ -52,6 +54,27 @@ data = ['''
 <td>Not operational</td>
 <td></td>
 <td>The Vatican is served by Italian networks <a href="/wiki/Telecom_Italia_Mobile" class="mw-redirect" title="Telecom Italia Mobile">TIM</a>, <a href="/wiki/Vodafone_Italy" title="Vodafone Italy">Vodafone Italy</a>, <a href="/wiki/WIND_(Italy)" title="WIND (Italy)">Wind</a> and 3</td>
+</tr>
+</table>
+<h3><span class="mw-headline" id="Christmas_Island_.28Australia.29_-_CX"><a href="/wiki/Christmas_Island" title="Christmas Island">Christmas Island</a> (Australia) - CX</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Mobile_country_code&amp;action=edit&amp;section=49" title="Edit section: Christmas Island (Australia) - CX">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<table class="wikitable" width="100%">
+<tr>
+<th width="4%">MCC</th>
+<th width="4%">MNC</th>
+<th width="12%">Brand</th>
+<th width="22%">Operator</th>
+<th width="10%">Status</th>
+<th width="28%">Bands (MHz)</th>
+<th width="20%">References and notes</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </table>
 <h3><span class="mw-headline" id="Taiwan_-_TW"><a href="/wiki/Taiwan" title="Taiwan">Taiwan</a> - TW</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Mobile_country_code&amp;action=edit&amp;section=220" title="Edit section: Taiwan - TW">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
