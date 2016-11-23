@@ -1,9 +1,9 @@
 import urllib
 import re
 import sqlite3
-from BeautifulSoup import *
 
-fhand = open('openurl.txt')
+fhand = urllib.urlopen('https://en.wikipedia.org/wiki/Mobile_country_code')
+# fhand = open('openurl.txt')
 html_str = fhand.read()
 
 conn = sqlite3.connect('mcc_mnc_db.sqlite')
@@ -27,9 +27,9 @@ CREATE TABLE MNC (
 
 ''')
 
-item_list = re.findall('<h3><span class="\S*" id="(\S+?)"|<tr>\s*<td>([0-9]*)</td>\s*<td>([0-9]*)</td>', html_str)
+item_list = re.findall('<h3><span class="\S*" id="(\S+?)"><a href=|<tr>\s*<td>([0-9]*)</td>\s*<td>([0-9]*)</td>', html_str)
 print 'len of item_list', len(item_list)
-country_name = str()
+country_name = ''
 for item in item_list:
     print '*************'
 #    print item
@@ -38,12 +38,15 @@ for item in item_list:
         country_name = item[0]
         print 'Get country name', country_name
         continue
+
     if item[1]:
+        if item[1] == '901': break # international operators
         mcc_code = item[1]
         mnc_code = item[2]
     else:
         print 'No MCC, ignore', country_name
         continue
+    if not country_name: continue # skip TEST Network
     print country_name, mcc_code, mnc_code
     
     cur.execute('''INSERT OR IGNORE INTO MCC (code, name) 
