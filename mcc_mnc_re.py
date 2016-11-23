@@ -240,15 +240,9 @@ data = ['''
 ''']
 
 data2 = '<h3><span class="mw-headline" id="Taiwan_-_TW"><h3><span class="mw-headline" id="Abkhazia_-_GE-AB">'
-item_list = re.findall('<h3><span class="\S*" id="(\S+?)"', str(data))
+item_list = re.findall('<h3><span class="\S*" id="(\S+?)"|<tr>..<td>([0-9]*)</td>..<td>([0-9]*)</td>', str(data))
 # item_list = re.findall('<h3><span.*id=.*>', str(data))
 print 'len of item_list', len(item_list)
 for item in item_list:
     print '*************'
     print item
-    
-item_list2 = re.findall('<td>[0-9]*</td>', str(data))
-print 'len of item_list', len(item_list2)
-for item2 in item_list2:
-    print '*************'
-    print item2
