@@ -2,27 +2,34 @@ import urllib
 import re
 import sqlite3
 
-fhand = urllib.urlopen('https://en.wikipedia.org/wiki/Mobile_country_code')
-# fhand = open('openurl.txt')
+# fhand = urllib.urlopen('https://en.wikipedia.org/wiki/Mobile_country_code')
+fhand = open('openurl.txt')
 html_str = fhand.read()
 
 conn = sqlite3.connect('mcc_mnc_db.sqlite')
 cur = conn.cursor()
 
 cur.executescript('''
+DROP TABLE IF EXISTS COUNTRY;
 DROP TABLE IF EXISTS MCC;
 DROP TABLE IF EXISTS MNC;
 
+CREATE TABLE COUNTRY (
+    id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name       TEXT UNIQUE
+);
+
 CREATE TABLE MCC (
-    id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    code   TEXT UNIQUE,
-    name   TEXT
+    id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    country_id INTEGER,
+    code       TEXT
 );
 
 CREATE TABLE MNC (
     id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     mcc_id INTEGER,
-    mnc_code TEXT
+    mnc_code TEXT,
+    support_band TEXT
 );
 
 ''')
@@ -45,20 +52,27 @@ for item in item_list:
         if item[1] == '901': break # international operators
         mcc_code = item[1]
         mnc_code = item[2]
+        support_band = item[3]
     else:
         print 'No MCC, ignore', country_name
         continue
     if not country_name: continue # skip TEST Network
-    print country_name, mcc_code, mnc_code
-    
-    cur.execute('''INSERT OR IGNORE INTO MCC (code, name) 
-    VALUES (?, ?)''', (mcc_code, country_name))
+    print country_name, mcc_code, mnc_code, support_band
 
-    cur.execute('SELECT id FROM MCC WHERE code = ? ', (mcc_code, ))
+    cur.execute('''INSERT OR IGNORE INTO COUNTRY (name) 
+    VALUES (?)''', (country_name, ))
+
+    cur.execute('SELECT id FROM COUNTRY WHERE name = ? ', (country_name, ))
+    country_id = cur.fetchone()[0]
+    
+    cur.execute('''INSERT OR IGNORE INTO MCC (country_id, code) 
+    VALUES (?, ?)''', (country_id, mcc_code))
+
+    cur.execute('SELECT id FROM MCC WHERE country_id = ? and code = ? ', (country_id, mcc_code))
     mcc_id = cur.fetchone()[0]
     
-    cur.execute('''INSERT INTO MNC (mcc_id, mnc_code)
-    VALUES (?, ?)''', (mcc_id, mnc_code))
+    cur.execute('''INSERT INTO MNC (mcc_id, mnc_code, support_band)
+    VALUES (?, ?, ?)''', (mcc_id, mnc_code, support_band))
     
     conn.commit()
     
