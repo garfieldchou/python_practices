@@ -27,7 +27,9 @@ CREATE TABLE MNC (
 
 ''')
 
-item_list = re.findall('<h3><span class="\S*" id="(\S+?)"><a href=|<tr>\s*<td>([0-9]*)</td>\s*<td>([0-9]*)</td>\s*<td>.*</td>\s*<td>.*</td>\s*<td>.*</td>\s*<td>(.*)</td>', html_str)
+item_list = re.findall('''
+<h3><span class="\S*" id="(\S+?)"><a href=|
+<tr>\s*<td>([0-9]*)</td>\s*<td>([0-9]*)</td>\s*<td>.*</td>\s*<td>.*</td>\s*<td>.*</td>\s*<td>(.*)</td>''', html_str)
 print 'len of item_list', len(item_list)
 country_name = ''
 for item in item_list:
