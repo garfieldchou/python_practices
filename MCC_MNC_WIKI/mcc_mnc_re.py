@@ -2,8 +2,8 @@ import urllib
 import re
 import sqlite3
 
-# fhand = urllib.urlopen('https://en.wikipedia.org/wiki/Mobile_country_code')
-fhand = open('openurl.txt')
+fhand = urllib.urlopen('https://en.wikipedia.org/wiki/Mobile_country_code')
+# fhand = open('openurl.txt')
 html_str = fhand.read()
 
 conn = sqlite3.connect('mcc_mnc_db.sqlite')
@@ -11,25 +11,19 @@ cur = conn.cursor()
 
 cur.executescript('''
 DROP TABLE IF EXISTS COUNTRY;
-DROP TABLE IF EXISTS MCC;
-DROP TABLE IF EXISTS MNC;
+DROP TABLE IF EXISTS MCC_MNC;
 
 CREATE TABLE COUNTRY (
     id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     name       TEXT UNIQUE
 );
 
-CREATE TABLE MCC (
+CREATE TABLE MCC_MNC (
     id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     country_id INTEGER,
-    code       TEXT
-);
-
-CREATE TABLE MNC (
-    id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    mcc_id INTEGER,
-    mnc_code TEXT,
-    support_band TEXT
+    mcc        TEXT,
+    mnc        TEXT,
+    support_band TEXT    
 );
 
 ''')
@@ -65,14 +59,8 @@ for item in item_list:
     cur.execute('SELECT id FROM COUNTRY WHERE name = ? ', (country_name, ))
     country_id = cur.fetchone()[0]
     
-    cur.execute('''INSERT OR IGNORE INTO MCC (country_id, code) 
-    VALUES (?, ?)''', (country_id, mcc_code))
+    cur.execute('''INSERT OR IGNORE INTO MCC_MNC (country_id, mcc, mnc, support_band) 
+    VALUES (?, ?, ?, ?)''', (country_id, mcc_code, mnc_code, support_band))
 
-    cur.execute('SELECT id FROM MCC WHERE country_id = ? and code = ? ', (country_id, mcc_code))
-    mcc_id = cur.fetchone()[0]
-    
-    cur.execute('''INSERT INTO MNC (mcc_id, mnc_code, support_band)
-    VALUES (?, ?, ?)''', (mcc_id, mnc_code, support_band))
-    
     conn.commit()
     
