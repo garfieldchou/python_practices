@@ -38,7 +38,7 @@ for item in item_list:
 #    print item
 #    if len(item[0]) > 0: print item
     if item[0]:
-        country_name = item[0]
+        country_name = item[0].replace('.28', '(').replace('.29', ')').replace('_', ' ').replace('.2F', '/')
         print 'Get country name', country_name
         continue
 
@@ -46,7 +46,7 @@ for item in item_list:
         if item[1] == '901': break # international operators
         mcc_code = item[1]
         mnc_code = item[2]
-        support_band = item[3]
+        support_band = re.sub('<.*?>', '', item[3]) # non-greedy
     else:
         print 'No MCC, ignore', country_name
         continue
