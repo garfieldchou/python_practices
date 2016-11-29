@@ -23,7 +23,7 @@ for country in countries:
         all_support_band += support_band_list
     print len(all_support_band),'support bands in a country:', all_support_band
     for item in all_support_band:
-        if item == 'Unknown': continue
+        if item == 'Unknown' or not item: continue
         band_dict[item] = band_dict.get(item, 0) + 1
     print band_dict
     del all_support_band[:]
