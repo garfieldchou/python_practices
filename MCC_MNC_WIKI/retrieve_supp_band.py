@@ -18,13 +18,13 @@ for country in countries:
     supported_bands_row_list = cur.fetchall()
     for support_band_row in supported_bands_row_list:
         # print support_band_row[0]
-        support_band_list = (str(support_band_row[0])).split(' / ')
+        support_band_list = (str(support_band_row[0])).split('/')
         # print support_band_list
         all_support_band += support_band_list
     print len(all_support_band),'support bands in a country:', all_support_band
     for item in all_support_band:
         if item == 'Unknown' or not item: continue
-        band_dict[item] = band_dict.get(item, 0) + 1
+        band_dict[item.strip()] = band_dict.get(item.strip(), 0) + 1
     print band_dict
     del all_support_band[:]
     band_dict.clear()
